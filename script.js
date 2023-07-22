@@ -642,6 +642,12 @@ function getRandomUserId(numberOfUsers = 5) {
   return 1 + Math.floor(Math.random() * numberOfUsers);
 }
 
+function getRandomCardHolder(
+  holderNames = ["Vishal", "Rajesh", "Rajith", "Mayank"]
+) {
+  return getRandomEnum(holderNames);
+}
+
 function makeSane(arr) {
   // spent
   // available_to_spend
@@ -656,6 +662,7 @@ function makeSane(arr) {
       card_type: getRandomCardType(),
       status: getRandomStatus(),
       owner_id: getRandomUserId(),
+      card_holder: getRandomCardHolder(),
     };
   });
 }
