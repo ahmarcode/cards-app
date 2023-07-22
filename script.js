@@ -18,7 +18,7 @@
 //   },
 // ];
 
-const data = [
+const DATA = [
   {
     name: "Patten",
     available_to_spend: "$485.38",
@@ -667,4 +667,45 @@ function makeSane(arr) {
   });
 }
 
-console.log(makeSane(data));
+const mockData = makeSane(DATA);
+
+// console.log(makeSane(data));
+
+/**
+ *
+ * @param {String | null | ''} tab
+ * @param {String | null | ''} cardType
+ * @param {String | null | ''} owner_id
+ */
+function getItems(
+  arr = [],
+  params = { tab: "all", card_type: "", owner_id: 1, card_holder: "" }
+) {
+  // Use pipelining for filter since filters are independent of each other.
+  return arr
+    .filter((item) => {
+      // tab filter
+      if (!params.tab || params.tab === "all")
+        return true; // empty string is also treated as "all"
+      else if (params.tab === "yours") {
+        return params.owner_id == item.owner_id;
+      } else if (params.tab === "blocked") {
+        return params.tab == item.status;
+      }
+    })
+    .filter((item) => {
+      // card type filter
+      if (!params.card_type) return true;
+      return params.card_type == item.card_type;
+    })
+    .filter((item) => {
+      // card holder filter
+      if (!params.card_holder) return true;
+      return params.card_holder == item.card_holder;
+    });
+}
+
+// console.log(
+//   getItems(mockData, { tab: "yours", owner_id: 1, card_type: "subscription" })
+// );
+
