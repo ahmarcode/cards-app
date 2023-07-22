@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>card app</title>
 	<link rel="stylesheet" href="styles.css">
+	<script src="script.js" defer></script>
 </head>
 
 <body>
@@ -33,7 +34,14 @@
 			</button>
 		</div>
 	</div>
-	<div id="tabs"></div>
+	<div id="tabs">
+		<div id="tabs-left-part">
+			<div class="tab-item" data-tab-value="yours">Yours</div>
+			<div class="tab-item" data-tab-value="all">All</div>
+			<div class="tab-item" data-tab-value="blocked">Blocked</div>
+		</div>
+		<div id="tabs-right-part" hidden></div>
+	</div>
 	<div id="filters"></div>
 	<div id="listing"></div>
 

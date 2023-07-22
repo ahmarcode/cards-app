@@ -709,3 +709,50 @@ function getItems(
 //   getItems(mockData, { tab: "yours", owner_id: 1, card_type: "subscription" })
 // );
 
+const appState = {
+  // tab data
+  tab: "all",
+  // filter data
+  card_type: "",
+  card_holder: "",
+
+  // listing
+  currentListing: mockData,
+
+  // mic
+  // user data - not a filter, just the current loggedin user's data
+  owner_id: 1,
+};
+
+function renderApp(data, state) {
+  // top header is static, no render needed
+  // re-render tabs
+  const tabNodes = document.querySelectorAll(".tab-item");
+  tabNodes.forEach((tabNode) => {
+    tabNode.classList.remove("tab-item--selected"); // de-select-all
+    // select current tab
+    if (tabNode.getAttribute("data-tab-value") === state.tab)
+      tabNode.classList.add("tab-item--selected");
+
+    function onClickHandler(event) {
+      const node = event.target;
+      state.tab = node.getAttribute("data-tab-value") || Math.random();
+
+      // re-render the app
+      renderApp(data, state);
+    }
+    // repace event listener
+    // Remove existing click listeners on tabNode
+    const newTabNode = tabNode.cloneNode(true);
+    tabNode.parentNode.replaceChild(newTabNode, tabNode);
+    // Attach the onClickHandler
+    newTabNode.addEventListener("click", onClickHandler);
+  });
+
+  // re-render filters
+
+  // re-render listing
+}
+
+// first render
+renderApp(mockData, appState);

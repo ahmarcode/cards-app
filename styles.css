@@ -1,8 +1,10 @@
+/* Override live server CSS file */
 * {
   margin: 0;
   padding: 0;
 }
 
+/* Top header */
 #top-header {
   display: flex;
   justify-content: space-between;
@@ -40,3 +42,33 @@
   border-radius: 4px;
   padding: 6px;
 }
+
+/* Tabs */
+#tabs {
+  margin-top: 24px;
+
+  border-bottom: 1px solid rgb(189, 182, 182);
+  display: flex;
+  justify-content: space-between;
+}
+
+#tabs-left-part {
+  /* Tab container */
+  display: flex;
+  gap: 10px;
+}
+
+.tab-item {
+  color: grey;
+  padding: 10px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.tab-item--selected {
+  color: black;
+  border-bottom: 2px solid orangered;
+}
+
+/* Filters */
+/* Listing */
