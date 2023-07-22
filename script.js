@@ -709,6 +709,7 @@ function getItems(
 //   getItems(mockData, { tab: "yours", owner_id: 1, card_type: "subscription" })
 // );
 
+// UI CODE STARTS HERE.
 const appState = {
   // tab data
   tab: "all",
