@@ -118,6 +118,13 @@
   height: var(--card-icon-size);
 }
 
+svg.subcription-icon {
+  stroke: var(--design-pink-red);
+  fill: var(--design-pink-red);
+
+  height: var(--card-icon-size);
+}
+
 .card-type-and-expiry {
   display: flex;
   justify-content: space-between;
