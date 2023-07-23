@@ -92,6 +92,8 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 450;
   border-radius: 4px;
+
+  max-width: 400px;
 }
 
 .card-top-part {
@@ -140,7 +142,7 @@
   font-weight: 530;
 }
 
-.money-bullet-label {
+.money-bullet--label {
   flex-grow: 1;
 }
 
@@ -156,4 +158,37 @@
 
 .colored-circle--green {
   background-color: var(--design-green);
+}
+
+.progress-bar-container {
+  display: flex;
+  height: 10px;
+  margin: 8px 0;
+}
+
+.progress-bar-container > * {
+  flex-basis: 0;
+  background-color: orange;
+}
+
+.progress-bar-container > *:first-child {
+  background-color: var(--design-pink-red);
+
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.progress-bar-container > *:last-child {
+  background-color: var(--design-green);
+
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.spent-and-available-to-spend {
+  margin: 12px 0;
+}
+
+.money-bullet:not(:first-child) {
+  margin-top: 12px;
 }

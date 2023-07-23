@@ -70,12 +70,25 @@
 					<span class="card-expiry-or-limit--value">5 SGD</span>
 				</div>
 			</div>
-			<div aria-label="progress-bar"></div>
-			<div aria-label="spent-and-available-to-spend">
+			<div class="progress-bar-container" aria-label="progress-bar">
+				<div class="progress-bar-first-part" style="flex-grow: 1;"></div>
+				<div class="progress-bar-second-part" style="flex-grow: 1;"></div>
+				<div class="progress-bar-first-part" style="flex-grow: 1;"></div>
+			</div>
+			<div class="spent-and-available-to-spend">
+				<div class="money-bullet" aria-label="spent">
+					<div aria-label="bullet-color-icon" class="colored-circle colored-circle--red"></div>
+					<div class="money-bullet--label">
+						Spent
+					</div>
+					<div class="money-bullet--value">
+						148 SGD
+					</div>
+				</div>
 				<div class="money-bullet" aria-label="spent">
 					<div aria-label="bullet-color-icon" class="colored-circle colored-circle--green"></div>
 					<div class="money-bullet--label">
-						Spent
+						Available to spend
 					</div>
 					<div class="money-bullet--value">
 						30 SGD
