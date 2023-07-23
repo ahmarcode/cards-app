@@ -88,9 +88,10 @@
 
 .card {
   color: grey;
-  padding: 12px;
+  padding: 16px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
+  font-weight: 450;
+}
 
 .card-top-part {
   display: flex;
@@ -126,4 +127,32 @@
   border-radius: 4px;
   padding: 2px 4px;
   font-weight: 500;
+}
+
+.money-bullet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+
+  color: black;
+  font-weight: 530;
+}
+
+.money-bullet-label {
+  flex-grow: 1;
+}
+
+.colored-circle {
+  border-radius: 50%;
+  height: 10px;
+  aspect-ratio: 1;
+}
+
+.colored-circle--red {
+  background-color: var(--design-pink-red);
+}
+
+.colored-circle--green {
+  background-color: var(--design-green);
 }
