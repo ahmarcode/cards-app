@@ -766,71 +766,76 @@ function renderApp(data, state) {
 }
 
 function getCardUICode(card) {
-  // as we imported from JSON, all values are strings, make into numbers
-  // to avoid silly issues with math operations
-  card.spent.value = parseInt(card.spent.value);
-  card.available_to_spend.value = parseInt(card.available_to_spend.value);
-  const spentRatio =
-    card.spent.value / (card.spent.value + card.available_to_spend.value);
-  const availableToSpendRatio =
-    card.available_to_spend.value /
-    (card.spent.value + card.available_to_spend.value);
-
-  return `
-  <div class="card">
-    <div aria-label="top" class="card-top-part">
-      <div aria-label="card-top-left-part">
-        <div class="card-name">${card.name}</div>
-        <div class="card-summary">
-          <span>${card.card_holder}</span>
-          <span>•</span>
-          <span>${card.budget_name}</span>
-        </div>
+  function getCardTopUICode(card) {
+    return `
+  <div aria-label="top" class="card-top-part">
+    <div aria-label="card-top-left-part">
+      <div class="card-name">${card.name}</div>
+      <div class="card-summary">
+        <span>${card.card_holder}</span>
+        <span>•</span>
+        <span>${card.budget_name}</span>
       </div>
-      <div class="card-icon-container" aria-label="card-top-right-part">
+    </div>
+    <div class="card-icon-container" aria-label="card-top-right-part">
+    ${
+      card.card_type === "burner"
+        ? `<img class="card-icon" src="./assets/fire.png"/>`
+        : `<svg style="stroke-width:0.5;" class="subcription-icon MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AutorenewSharpIcon"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"></path></svg>`
+    }
+    </div>
+  </div>`;
+  }
+  function getCardTypeAndExpiryUICode(card) {
+    return `
+  <div class="card-type-and-expiry">
+    <div class="card-type">${
+      card.card_type === "burner" ? "Burner" : "Subscription"
+    }</div>
+    <div class="card-expiry-or-limit">
       ${
         card.card_type === "burner"
-          ? `<img class="card-icon" src="./assets/fire.png"/>`
-          : `<svg style="stroke-width:0.5;" class="subcription-icon MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AutorenewSharpIcon"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"></path></svg>`
+          ? ""
+          : `<span class="optional-card-month">${new Date(card.expiry)
+              .toLocaleString("default", { month: "long" })
+              .toString()}</span>`
       }
-      </div>
+      <span class="card-expiry-or-limit--key">${
+        card.card_type === "burner" ? "Expiry" : "Limit"
+      }</span>
+      <span>:&nbsp;</span>
+      <span class="card-expiry-or-limit--value">${
+        card.card_type === "burner"
+          ? new Date(card.expiry).toLocaleDateString("en-GB", {
+              month: "short",
+              day: "numeric",
+            })
+          : `${card.limit} ${card.spent.currency}`
+      }</span>
     </div>
+  </div>`;
+  }
 
-
-    <div class="card-type-and-expiry">
-      <div class="card-type">${
-        card.card_type === "burner" ? "Burner" : "Subscription"
-      }</div>
-      <div class="card-expiry-or-limit">
-        ${
-          card.card_type === "burner"
-            ? ""
-            : `<span class="optional-card-month">${new Date(card.expiry)
-                .toLocaleString("default", { month: "long" })
-                .toString()}</span>`
-        }
-        <span class="card-expiry-or-limit--key">${
-          card.card_type === "burner" ? "Expiry" : "Limit"
-        }</span>
-        <span>:&nbsp;</span>
-        <span class="card-expiry-or-limit--value">${
-          card.card_type === "burner"
-            ? new Date(card.expiry).toLocaleDateString("en-GB", {
-                month: "short",
-                day: "numeric",
-              })
-            : `${card.limit} ${card.spent.currency}`
-        }</span>
-      </div>
-    </div>
-
-
+  function getCardProgressBarUICode(card) {
+    // as we imported from JSON, all values are strings, make into numbers
+    // to avoid silly issues with math operations
+    card.spent.value = parseInt(card.spent.value);
+    card.available_to_spend.value = parseInt(card.available_to_spend.value);
+    const spentRatio =
+      card.spent.value / (card.spent.value + card.available_to_spend.value);
+    const availableToSpendRatio =
+      card.available_to_spend.value /
+      (card.spent.value + card.available_to_spend.value);
+    return `
     <div class="progress-bar-container" aria-label="progress-bar">
       <div class="progress-bar-first-part" style="flex-grow: ${spentRatio};"></div>
       <div class="progress-bar-second-part" style="flex-grow: ${availableToSpendRatio};"></div>
     </div>
+    `;
+  }
 
-
+  function getCardSpentAndAvailableToSpendUICode(card) {
+    return `
     <div class="spent-and-available-to-spend">
       <div class="money-bullet" aria-label="spent">
         <div aria-label="bullet-color-icon" class="colored-circle colored-circle--red"></div>
@@ -850,8 +855,16 @@ function getCardUICode(card) {
           ${`${card.available_to_spend.value} ${card.available_to_spend.currency}`}
         </div>
       </div>
-    </div>
-</div>`;
+    </div>`;
+  }
+
+  return `
+    <div class="card">
+      ${getCardTopUICode(card)}
+      ${getCardTypeAndExpiryUICode(card)}
+      ${getCardProgressBarUICode(card)}
+      ${getCardSpentAndAvailableToSpendUICode(card)}
+    </div>`;
 }
 
 // first render
