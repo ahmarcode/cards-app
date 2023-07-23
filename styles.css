@@ -93,7 +93,8 @@
   font-weight: 450;
   border-radius: 4px;
 
-  max-width: 400px;
+  /* max-width: 400px; */
+  width: 400px;
 }
 
 .card-top-part {
@@ -198,4 +199,12 @@ svg.subcription-icon {
 
 .money-bullet:not(:first-child) {
   margin-top: 12px;
+}
+
+#listing {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  /* auto means set width to be content width */
+
+  justify-content: space-around;
 }
