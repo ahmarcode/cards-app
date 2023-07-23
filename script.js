@@ -757,7 +757,9 @@ function renderApp(data, state) {
   const listingContainer = document.querySelector("#listing");
   listingContainer.innerHTML = "";
 
-  data.forEach((card) => {
+  // get data relevant to the app state
+  const relevantData = getItems(data, state);
+  relevantData.forEach((card) => {
     // [data[0]].forEach((card) => {
     card.spent.value = parseInt(card.spent.value);
     card.available_to_spend.value = parseInt(card.available_to_spend.value);
