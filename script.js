@@ -1,23 +1,3 @@
-// const data = [
-//   {
-//     name: "Mixmax",
-//     budget_name: "Software subscription",
-//     owner_id: 1,
-//     spent: {
-//       value: 100,
-//       currency: "SGD",
-//     },
-//     available_to_spend: {
-//       value: 1000,
-//       currency: "SGD",
-//     },
-//     card_type: "burner",
-//     expiry: "2023-02-08T18:30:00.000Z",
-//     limit: 100,
-//     status: "active",
-//   },
-// ];
-
 const DATA = [
   {
     name: "Patten",
@@ -29,7 +9,6 @@ const DATA = [
     card_type: "Iskandar Airport",
     limit: 7,
     status: "Reconquista Airport",
-
     owner_id: 1,
   },
   {
