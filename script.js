@@ -605,29 +605,32 @@ function getRandomEnum(enumArray = ["alice", "bob", "charlie"]) {
   return enumArray[Math.floor(Math.random() * enumArray.length)];
 }
 
-function getRandomCurrency(availableCurrencies = ["SGD", "USD", "INR", "AED"]) {
-  return getRandomEnum(availableCurrencies);
-}
+function getCleanedMockData(arr) {
+  // utils used inside this function
+  function getRandomCurrency(
+    availableCurrencies = ["SGD", "USD", "INR", "AED"]
+  ) {
+    return getRandomEnum(availableCurrencies);
+  }
 
-function getRandomCardType(cardTypes = ["burner", "subscription"]) {
-  return getRandomEnum(cardTypes);
-}
+  function getRandomCardType(cardTypes = ["burner", "subscription"]) {
+    return getRandomEnum(cardTypes);
+  }
 
-function getRandomStatus(statuses = ["active", "blocked"]) {
-  return getRandomEnum(statuses);
-}
+  function getRandomStatus(statuses = ["active", "blocked"]) {
+    return getRandomEnum(statuses);
+  }
 
-function getRandomUserId(numberOfUsers = 5) {
-  return 1 + Math.floor(Math.random() * numberOfUsers);
-}
+  function getRandomUserId(numberOfUsers = 5) {
+    return 1 + Math.floor(Math.random() * numberOfUsers);
+  }
 
-function getRandomCardHolder(
-  holderNames = ["Vishal", "Rajesh", "Rajith", "Mayank"]
-) {
-  return getRandomEnum(holderNames);
-}
+  function getRandomCardHolder(
+    holderNames = ["Vishal", "Rajesh", "Rajith", "Mayank"]
+  ) {
+    return getRandomEnum(holderNames);
+  }
 
-function makeSane(arr) {
   // spent
   // available_to_spend
   return arr.map((item) => {
@@ -647,17 +650,17 @@ function makeSane(arr) {
   });
 }
 
-const mockData = makeSane(DATA);
+const mockData = getCleanedMockData(DATA);
 
 // console.log(mockData);
 
 /**
- *
- * @param {String | null | ''} tab
- * @param {String | null | ''} cardType
- * @param {String | null | ''} owner_id
+ * Get items relevant according to app state
+ * @param {'all' | 'blocked' | 'yours'} tab
+ * @param {'burner' | 'subscription'} cardType
+ * @param {String} owner_id
  */
-function getItems(
+function getRelevantItems(
   arr = [],
   params = { tab: "all", card_type: "", owner_id: 1, card_holder: "" }
 ) {
@@ -737,64 +740,68 @@ function renderApp(data, state) {
   listingContainer.innerHTML = ""; // remove all cards
   // add relevant cards
   // get data relevant to the app state
-  const relevantData = getItems(data, state);
+  const relevantData = getRelevantItems(data, state);
   relevantData.forEach((card) => {
     // [data[0]].forEach((card) => {
     listingContainer.innerHTML += getCardUICode(card);
   });
 }
 
+/**
+ * Get HTML for card ui component
+ * @param {object} card
+ * @returns {String} html for the card
+ */
 function getCardUICode(card) {
   function getCardTopUICode(card) {
     return `
-  <div aria-label="top" class="card-top-part">
-    <div aria-label="card-top-left-part">
-      <div class="card-name">${card.name}</div>
-      <div class="card-summary">
-        <span>${card.card_holder}</span>
-        <span>•</span>
-        <span>${card.budget_name}</span>
+    <div aria-label="top" class="card-top-part">
+      <div aria-label="card-top-left-part">
+        <div class="card-name">${card.name}</div>
+        <div class="card-summary">
+          <span>${card.card_holder}</span>
+          <span>•</span>
+          <span>${card.budget_name}</span>
+        </div>
       </div>
-    </div>
-    <div class="card-icon-container" aria-label="card-top-right-part">
-    ${
-      card.card_type === "burner"
-        ? `<img class="card-icon" src="./assets/fire.png"/>`
-        : `<svg style="stroke-width:0.5;" class="subcription-icon MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AutorenewSharpIcon"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"></path></svg>`
-    }
-    </div>
-  </div>`;
+      <div class="card-icon-container" aria-label="card-top-right-part">
+      ${
+        card.card_type === "burner"
+          ? `<img class="card-icon" src="./assets/fire.png"/>`
+          : `<svg style="stroke-width:0.5;" class="subcription-icon MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AutorenewSharpIcon"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"></path></svg>`
+      }
+      </div>
+    </div>`;
   }
   function getCardTypeAndExpiryUICode(card) {
     return `
-  <div class="card-type-and-expiry">
-    <div class="card-type">${
-      card.card_type === "burner" ? "Burner" : "Subscription"
-    }</div>
-    <div class="card-expiry-or-limit">
-      ${
-        card.card_type === "burner"
-          ? ""
-          : `<span class="optional-card-month">${new Date(card.expiry)
-              .toLocaleString("default", { month: "long" })
-              .toString()}</span>`
-      }
-      <span class="card-expiry-or-limit--key">${
-        card.card_type === "burner" ? "Expiry" : "Limit"
-      }</span>
-      <span>:&nbsp;</span>
-      <span class="card-expiry-or-limit--value">${
-        card.card_type === "burner"
-          ? new Date(card.expiry).toLocaleDateString("en-GB", {
-              month: "short",
-              day: "numeric",
-            })
-          : `${card.limit} ${card.spent.currency}`
-      }</span>
-    </div>
-  </div>`;
+    <div class="card-type-and-expiry">
+      <div class="card-type">${
+        card.card_type === "burner" ? "Burner" : "Subscription"
+      }</div>
+      <div class="card-expiry-or-limit">
+        ${
+          card.card_type === "burner"
+            ? ""
+            : `<span class="optional-card-month">${new Date(card.expiry)
+                .toLocaleString("default", { month: "long" })
+                .toString()}</span>`
+        }
+        <span class="card-expiry-or-limit--key">${
+          card.card_type === "burner" ? "Expiry" : "Limit"
+        }</span>
+        <span>:&nbsp;</span>
+        <span class="card-expiry-or-limit--value">${
+          card.card_type === "burner"
+            ? new Date(card.expiry).toLocaleDateString("en-GB", {
+                month: "short",
+                day: "numeric",
+              })
+            : `${card.limit} ${card.spent.currency}`
+        }</span>
+      </div>
+    </div>`;
   }
-
   function getCardProgressBarUICode(card) {
     // as we imported from JSON, all values are strings, make into numbers
     // to avoid silly issues with math operations
@@ -805,6 +812,7 @@ function getCardUICode(card) {
     const availableToSpendRatio =
       card.available_to_spend.value /
       (card.spent.value + card.available_to_spend.value);
+
     return `
     <div class="progress-bar-container" aria-label="progress-bar">
       <div class="progress-bar-first-part" style="flex-grow: ${spentRatio};"></div>
@@ -812,7 +820,6 @@ function getCardUICode(card) {
     </div>
     `;
   }
-
   function getCardSpentAndAvailableToSpendUICode(card) {
     return `
     <div class="spent-and-available-to-spend">
