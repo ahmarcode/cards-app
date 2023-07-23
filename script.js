@@ -757,3 +757,8 @@ function renderApp(data, state) {
 
 // first render
 renderApp(mockData, appState);
+
+
+const score = 100;
+const total = 200;
+

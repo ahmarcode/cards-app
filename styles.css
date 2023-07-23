@@ -71,4 +71,59 @@
 }
 
 /* Filters */
+#filters {
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* Listing */
+
+:root {
+  --design-pink-red: #eb4869;
+  --design-green: #49935a;
+  /* PinkRed = "#EB4869", */
+  /* Green = "#49935A", */
+  --card-icon-size: 24px;
+}
+
+.card {
+  color: grey;
+  padding: 12px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+.card-top-part {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: black;
+}
+
+.card-icon-container {
+  padding: calc(var(--card-icon-size) * 0.5);
+  border-radius: 50%;
+  background-color: rgb(252, 246, 246);
+}
+
+.card-icon {
+  height: var(--card-icon-size);
+}
+
+.card-type-and-expiry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.card-type {
+  border: 1.6px solid grey;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-weight: 500;
+}
