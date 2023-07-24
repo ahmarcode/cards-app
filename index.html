@@ -45,18 +45,19 @@
 	<div id="filter-container">
 		<div id="filter-search">
 			<button id="filter-search-button" disabled><img height="12px" src="assets/search.png" /></button>
-			<div id="filter-popup" hidden>
+			<div id="filter-popup">
 				<div id="filter-popup-heading">
 					<div>Filters</div>
 					<hr>
 				</div>
 				<div id="filter-popup-menu">
 					<div class="filter-popup-options-container">
-						<div>Type</div>
+						<label for="filter-type">Type
+						</label>
 
 						<div id="filter-popup-card-type">
-							<div><input type="checkbox">&nbsp;Subscription</div>
-							<div><input type="checkbox">&nbsp;Burner</div>
+							<div><input type="radio" name="filter-type" value="subscription">&nbsp;Subscription</div>
+							<div><input type="radio" name="filter-type" value="burner">&nbsp;Burner</div>
 						</div>
 					</div>
 					<div class="filter-popup-options-container">
@@ -73,8 +74,8 @@
 						</div>
 					</div>
 					<div id="filter-popup-buttons">
-						<button id="filter-popup-apply-button">Apply</button>
-						<button id="filter-popup-clear-button">Clear</button>
+						<button id="filter-popup-apply-button" class="filter-button">Apply</button>
+						<button id="filter-popup-clear-button" class="filter-button">Clear</button>
 					</div>
 				</div>
 			</div>

@@ -679,7 +679,8 @@ function getRelevantItems(
     .filter((item) => {
       // card type filter
       if (!params.card_type) return true;
-      return params.card_type == item.card_type;
+
+      return params.card_type === item.card_type;
     })
     .filter((item) => {
       // card holder filter
@@ -785,6 +786,7 @@ function renderApp(data, state) {
     });
   });
 
+  // 2. dropdown population
   const dropdownContainer = document.querySelector("#cardholder-dropdown");
   const firstDisabledDropdownNode = `<option value="" disabled selected hidden>Select cardholder</option>`;
   const dropdownList = getCardHolders(relevantData);
@@ -793,6 +795,35 @@ function renderApp(data, state) {
     dropdownListNodes += `<option>${cardholder}</option>`;
   });
   dropdownContainer.innerHTML = dropdownListNodes;
+  // 3. Setting app state with current selected filters
+  const subscriptionTypeCheckbox = document.querySelector(
+    'input[name="filter-type"][value="subscription"]'
+  );
+  subscriptionTypeCheckbox.checked = state.card_type === "subscription";
+  // add fresh onClick
+  const subscriptionNewNode = subscriptionTypeCheckbox.cloneNode(true);
+  subscriptionTypeCheckbox.parentNode.replaceChild(
+    subscriptionNewNode,
+    subscriptionTypeCheckbox
+  );
+  subscriptionNewNode.addEventListener("click", () => {
+    state.card_type = subscriptionTypeCheckbox.checked
+      ? "burner"
+      : "subscription";
+    renderApp(data, state);
+  });
+
+  const burnerTypeCheckbox = document.querySelector(
+    'input[name="filter-type"][value="burner"]'
+  );
+  burnerTypeCheckbox.checked = state.card_type === "burner";
+  // add fresh onClick
+  const burnerNewNode = burnerTypeCheckbox.cloneNode(true);
+  burnerTypeCheckbox.parentNode.replaceChild(burnerNewNode, burnerTypeCheckbox);
+  burnerNewNode.addEventListener("click", () => {
+    state.card_type = burnerTypeCheckbox.checked ? "subscription" : "burner";
+    renderApp(data, state);
+  });
 
   // re-render listing
   const listingContainer = document.querySelector("#listing");
@@ -914,4 +945,5 @@ function getCardUICode(card) {
 
 // first render
 renderApp(mockData, appState);
-// renderApp([mockData[1]], appState);
+// renderApp([mockData[1]], appState);`
+// console.log("initial state", appState);

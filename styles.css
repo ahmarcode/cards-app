@@ -266,13 +266,13 @@ svg.subcription-icon {
   border: none;
 }
 
-.filter-popup-options-container{
+.filter-popup-options-container {
   margin-top: 20px;
 }
 
-.filter-popup-options-container >  div{
+.filter-popup-options-container > div {
   margin-bottom: 12px;
-  color: grey
+  color: grey;
 }
 
 #filter-popup-card-type {
@@ -282,8 +282,6 @@ svg.subcription-icon {
   gap: 64px;
   color: black;
 }
-
-
 
 #filter-popup-buttons {
   display: flex;
@@ -317,7 +315,11 @@ svg.subcription-icon {
   width: 175px;
 }
 
-select{
+.filter-button {
+  cursor: pointer;
+}
+
+select {
   width: 376px;
   height: 36px;
   background-color: rgb(244, 241, 241);
