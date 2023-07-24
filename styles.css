@@ -71,9 +71,51 @@
 }
 
 /* Filters */
-#filters {
+
+#filter-container {
   display: flex;
+
   justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+
+  margin-top: 24px;
+}
+
+#filter-button {
+  background-color: rgb(241, 237, 237);
+  color: gray;
+  font-weight: 550;
+
+  display: flex;
+  gap: 4px;
+  align-items: center;
+
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+
+  /* Experimenting */
+}
+
+#filter-popup {
+  position: absolute;
+  top: 50px;
+  right: 32.5px;
+  width: 400px;
+  height: 265px;
+  background-color: white;
+  border: 1px solid rgb(210, 205, 205);
+  border-radius: 8px;
+}
+
+#filter-search-button {
+  display: inline-block;
+
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
 }
 
 /* Listing */
@@ -207,4 +249,79 @@ svg.subcription-icon {
   /* auto means set width to be content width */
 
   justify-content: space-around;
+}
+
+#filter-popup-menu {
+  padding: 0 12px;
+}
+
+#filter-popup-heading > div {
+  padding: 10px;
+  font-weight: 500;
+}
+
+#filter-popup-heading > hr {
+  height: 1px;
+  background-color: #eae7e7;
+  border: none;
+}
+
+.filter-popup-options-container{
+  margin-top: 20px;
+}
+
+.filter-popup-options-container >  div{
+  margin-bottom: 12px;
+  color: grey
+}
+
+#filter-popup-card-type {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 64px;
+  color: black;
+}
+
+
+
+#filter-popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+#filter-popup-apply-button {
+  background-color: var(--design-pink-red); /* Green */
+  border: none;
+  color: white;
+  padding: 6px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 6px;
+  width: 175px;
+}
+
+#filter-popup-clear-button {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(254, 252, 252);
+  color: black;
+  padding: 6px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 6px;
+  width: 175px;
+}
+
+select{
+  width: 376px;
+  height: 36px;
+  background-color: rgb(244, 241, 241);
+  border-radius: 4px;
+  border: none;
+  color: grey;
 }

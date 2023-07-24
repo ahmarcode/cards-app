@@ -42,10 +42,50 @@
 		</div>
 		<div id="tabs-right-part" hidden></div>
 	</div>
-	<!-- <div id="filters">
-		<div id="search">search icon</div>
-		<div id="filter">filter icon + text</div>
-	</div> -->
+	<div id="filter-container">
+		<div id="filter-search">
+			<button id="filter-search-button" disabled><img height="12px" src="assets/search.png" /></button>
+			<div id="filter-popup">
+				<div id="filter-popup-heading">
+					<div>Filters</div>
+					<hr>
+				</div>
+				<div id="filter-popup-menu">
+					<div class="filter-popup-options-container">
+						<div>Type</div>
+
+						<div id="filter-popup-card-type">
+							<div><input type="checkbox">&nbsp;Subscription</div>
+							<div><input type="checkbox">&nbsp;Burner</div>
+						</div>
+					</div>
+					<div class="filter-popup-options-container">
+						<div>Cardholder</div>
+
+						<div id="filter-popup-cardholder">
+							<select id="cardholder-dropdown">
+								<option value="" disabled selected hidden>Select cardholder</option>
+								<option>Holder1</option>
+								<option>Holder2</option>
+								<option>Holder3</option>
+								<option>Holder4</option>
+							</select>
+						</div>
+					</div>
+					<div id="filter-popup-buttons">
+						<button id="filter-popup-apply-button">Apply</button>
+						<button id="filter-popup-clear-button">Clear</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="filter-filter">
+			<button id="filter-button">
+				<img height="12px" src="assets/filter.png" alt="filter-icon" />
+				Filter
+			</button>
+		</div>
+	</div>
 	<div id="listing">
 	</div>
 </body>
