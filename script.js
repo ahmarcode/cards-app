@@ -772,18 +772,18 @@ function renderApp(data, state) {
 
   // re-render filters
   // 1. Filter button and popup hide/unhide
-  // const toggleButton = document.getElementById("filter-button");
-  // toggleButton.addEventListener("click", () => {
-  //   function togglePopup(node) {
-  //     node.toggleAttribute("hidden");
-  //   }
-  //   const filterPopup = document.getElementById("filter-popup");
-  //   togglePopup(filterPopup);
+  const toggleButton = document.getElementById("filter-button");
+  toggleButton.addEventListener("click", () => {
+    function togglePopup(node) {
+      node.toggleAttribute("hidden");
+    }
+    const filterPopup = document.getElementById("filter-popup");
+    togglePopup(filterPopup);
 
-  //   body.addEventListener("click", () => {
-  //     togglePopup(filterPopup);
-  //   });
-  // });
+    body.addEventListener("click", () => {
+      togglePopup(filterPopup);
+    });
+  });
 
   const dropdownContainer = document.querySelector("#cardholder-dropdown");
   const firstDisabledDropdownNode = `<option value="" disabled selected hidden>Select cardholder</option>`;
