@@ -688,6 +688,41 @@ function getRelevantItems(
     });
 }
 
+function getCardHolders(data = []) {
+  const uniqueCardHolders = [];
+  for (let i = 0; i < data.length; i++) {
+    if (!uniqueCardHolders.includes(data[i].card_holder)) {
+      uniqueCardHolders.push(data[i].card_holder);
+    }
+  }
+  return uniqueCardHolders;
+  //
+  // 2. using hashmap
+  // const uniqueCardHolders = [];
+  // const cardHoldersSeen = {};
+  // for (let i = 0; i < data.length; i++) {
+  //   // if (!uniqueCardHolders.includes(data[i].card_holder)) {
+  //   //   uniqueCardHolders.push(data[i].card_holder);
+  //   // }
+  //   const cardHolder = data[i].card_holder;
+  //   if (!cardHoldersSeen[cardHolder]) {
+  //     cardHoldersSeen[cardHolder] = "seen";
+  //     uniqueCardHolders.push(cardHolder);
+  //   }
+  // }
+  // return uniqueCardHolders;
+  //
+  // 3. using Set
+  // const uniqueCardHolders = new Set();
+  // data.forEach((card) => {
+  //   const cardHolder = card.card_holder;
+  //   uniqueCardHolders.add(cardHolder);
+  // });
+  // return [...uniqueCardHolders];
+}
+
+// console.log(getCardHolders(mockData));
+
 // console.log(
 //   getItems(mockData, { tab: "yours", owner_id: 1, card_type: "subscription" })
 // );
@@ -709,6 +744,8 @@ const appState = {
 };
 
 function renderApp(data, state) {
+  const relevantData = getRelevantItems(data, state);
+
   // top header is static, no render needed
   // re-render tabs
   const tabNodes = document.querySelectorAll(".tab-item");
@@ -734,17 +771,39 @@ function renderApp(data, state) {
   });
 
   // re-render filters
+  // 1. Filter button and popup hide/unhide
+  // const toggleButton = document.getElementById("filter-button");
+  // toggleButton.addEventListener("click", () => {
+  //   function togglePopup(node) {
+  //     node.toggleAttribute("hidden");
+  //   }
+  //   const filterPopup = document.getElementById("filter-popup");
+  //   togglePopup(filterPopup);
+
+  //   body.addEventListener("click", () => {
+  //     togglePopup(filterPopup);
+  //   });
+  // });
+
+  const dropdownContainer = document.querySelector("#cardholder-dropdown");
+  const firstDisabledDropdownNode = `<option value="" disabled selected hidden>Select cardholder</option>`;
+  const dropdownList = getCardHolders(relevantData);
+  let dropdownListNodes = firstDisabledDropdownNode;
+  dropdownList.forEach((cardholder) => {
+    dropdownListNodes += `<option>${cardholder}</option>`;
+  });
+  dropdownContainer.innerHTML = dropdownListNodes;
 
   // re-render listing
   const listingContainer = document.querySelector("#listing");
   listingContainer.innerHTML = ""; // remove all cards
   // add relevant cards
   // get data relevant to the app state
-  const relevantData = getRelevantItems(data, state);
+  let newHTML = "";
   relevantData.forEach((card) => {
-    // [data[0]].forEach((card) => {
-    listingContainer.innerHTML += getCardUICode(card);
+    newHTML += getCardUICode(card);
   });
+  listingContainer.innerHTML = newHTML; // update DOM at once by batching changes
 }
 
 /**
@@ -855,3 +914,4 @@ function getCardUICode(card) {
 
 // first render
 renderApp(mockData, appState);
+// renderApp([mockData[1]], appState);
