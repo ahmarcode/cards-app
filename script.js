@@ -747,94 +747,105 @@ const appState = {
 function renderApp(data, state) {
   const relevantData = getRelevantItems(data, state);
 
-  // top header is static, no render needed
-  // re-render tabs
-  const tabNodes = document.querySelectorAll(".tab-item");
-  tabNodes.forEach((tabNode) => {
-    tabNode.classList.remove("tab-item--selected"); // de-select-all
-    // select current tab
-    if (tabNode.getAttribute("data-tab-value") === state.tab)
-      tabNode.classList.add("tab-item--selected");
+  function reRenderTabs() {
+    // top header is static, no render needed
+    // re-render tabs
+    const tabNodes = document.querySelectorAll(".tab-item");
+    tabNodes.forEach((tabNode) => {
+      tabNode.classList.remove("tab-item--selected"); // de-select-all
+      // select current tab
+      if (tabNode.getAttribute("data-tab-value") === state.tab)
+        tabNode.classList.add("tab-item--selected");
 
-    function onClickHandler(event) {
-      const node = event.target;
-      state.tab = node.getAttribute("data-tab-value") || Math.random();
+      function onClickHandler(event) {
+        const node = event.target;
+        state.tab = node.getAttribute("data-tab-value") || Math.random();
 
-      // re-render the app
-      renderApp(data, state);
-    }
-    // repace event listener
-    // Remove existing click listeners on tabNode
-    const newTabNode = tabNode.cloneNode(true);
-    tabNode.parentNode.replaceChild(newTabNode, tabNode);
-    // Attach the onClickHandler
-    newTabNode.addEventListener("click", onClickHandler);
-  });
-
-  // re-render filters
-  // 1. Filter button and popup hide/unhide
-  const toggleButton = document.getElementById("filter-button");
-  toggleButton.addEventListener("click", () => {
-    function togglePopup(node) {
-      node.toggleAttribute("hidden");
-    }
-    const filterPopup = document.getElementById("filter-popup");
-    togglePopup(filterPopup);
-
-    body.addEventListener("click", () => {
-      togglePopup(filterPopup);
+        // re-render the app
+        renderApp(data, state);
+      }
+      // repace event listener
+      // Remove existing click listeners on tabNode
+      const newTabNode = tabNode.cloneNode(true);
+      tabNode.parentNode.replaceChild(newTabNode, tabNode);
+      // Attach the onClickHandler
+      newTabNode.addEventListener("click", onClickHandler);
     });
-  });
+  }
+  function reRenderFilters() {
+    // re-render filters
+    // 1. Filter button and popup hide/unhide
+    const toggleButton = document.getElementById("filter-button");
+    toggleButton.addEventListener("click", () => {
+      function togglePopup(node) {
+        node.toggleAttribute("hidden");
+      }
+      const filterPopup = document.getElementById("filter-popup");
+      togglePopup(filterPopup);
 
-  // 2. dropdown population
-  const dropdownContainer = document.querySelector("#cardholder-dropdown");
-  const firstDisabledDropdownNode = `<option value="" disabled selected hidden>Select cardholder</option>`;
-  const dropdownList = getCardHolders(relevantData);
-  let dropdownListNodes = firstDisabledDropdownNode;
-  dropdownList.forEach((cardholder) => {
-    dropdownListNodes += `<option>${cardholder}</option>`;
-  });
-  dropdownContainer.innerHTML = dropdownListNodes;
-  // 3. Setting app state with current selected filters
-  const subscriptionTypeCheckbox = document.querySelector(
-    'input[name="filter-type"][value="subscription"]'
-  );
-  subscriptionTypeCheckbox.checked = state.card_type === "subscription";
-  // add fresh onClick
-  const subscriptionNewNode = subscriptionTypeCheckbox.cloneNode(true);
-  subscriptionTypeCheckbox.parentNode.replaceChild(
-    subscriptionNewNode,
-    subscriptionTypeCheckbox
-  );
-  subscriptionNewNode.addEventListener("click", () => {
-    state.card_type = subscriptionTypeCheckbox.checked
-      ? "burner"
-      : "subscription";
-    renderApp(data, state);
-  });
+      body.addEventListener("click", () => {
+        togglePopup(filterPopup);
+      });
+    });
 
-  const burnerTypeCheckbox = document.querySelector(
-    'input[name="filter-type"][value="burner"]'
-  );
-  burnerTypeCheckbox.checked = state.card_type === "burner";
-  // add fresh onClick
-  const burnerNewNode = burnerTypeCheckbox.cloneNode(true);
-  burnerTypeCheckbox.parentNode.replaceChild(burnerNewNode, burnerTypeCheckbox);
-  burnerNewNode.addEventListener("click", () => {
-    state.card_type = burnerTypeCheckbox.checked ? "subscription" : "burner";
-    renderApp(data, state);
-  });
+    // 2. dropdown population
+    const dropdownContainer = document.querySelector("#cardholder-dropdown");
+    const firstDisabledDropdownNode = `<option value="" disabled selected hidden>Select cardholder</option>`;
+    const dropdownList = getCardHolders(relevantData);
+    let dropdownListNodes = firstDisabledDropdownNode;
+    dropdownList.forEach((cardholder) => {
+      dropdownListNodes += `<option>${cardholder}</option>`;
+    });
+    dropdownContainer.innerHTML = dropdownListNodes;
+    // 3. Setting app state with current selected filters
+    const subscriptionTypeCheckbox = document.querySelector(
+      'input[name="filter-type"][value="subscription"]'
+    );
+    subscriptionTypeCheckbox.checked = state.card_type === "subscription";
+    // add fresh onClick
+    const subscriptionNewNode = subscriptionTypeCheckbox.cloneNode(true);
+    subscriptionTypeCheckbox.parentNode.replaceChild(
+      subscriptionNewNode,
+      subscriptionTypeCheckbox
+    );
+    subscriptionNewNode.addEventListener("click", () => {
+      state.card_type = subscriptionTypeCheckbox.checked
+        ? "burner"
+        : "subscription";
+      renderApp(data, state);
+    });
 
-  // re-render listing
-  const listingContainer = document.querySelector("#listing");
-  listingContainer.innerHTML = ""; // remove all cards
-  // add relevant cards
-  // get data relevant to the app state
-  let newHTML = "";
-  relevantData.forEach((card) => {
-    newHTML += getCardUICode(card);
-  });
-  listingContainer.innerHTML = newHTML; // update DOM at once by batching changes
+    const burnerTypeCheckbox = document.querySelector(
+      'input[name="filter-type"][value="burner"]'
+    );
+    burnerTypeCheckbox.checked = state.card_type === "burner";
+    // add fresh onClick
+    const burnerNewNode = burnerTypeCheckbox.cloneNode(true);
+    burnerTypeCheckbox.parentNode.replaceChild(
+      burnerNewNode,
+      burnerTypeCheckbox
+    );
+    burnerNewNode.addEventListener("click", () => {
+      state.card_type = burnerTypeCheckbox.checked ? "subscription" : "burner";
+      renderApp(data, state);
+    });
+  }
+  function reRenderListing() {
+    // re-render listing
+    const listingContainer = document.querySelector("#listing");
+    listingContainer.innerHTML = ""; // remove all cards
+    // add relevant cards
+    // get data relevant to the app state
+    let newHTML = "";
+    relevantData.forEach((card) => {
+      newHTML += getCardUICode(card);
+    });
+    listingContainer.innerHTML = newHTML; // update DOM at once by batching changes
+  }
+
+  reRenderTabs();
+  reRenderFilters();
+  reRenderListing();
 }
 
 /**
