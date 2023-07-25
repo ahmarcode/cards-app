@@ -788,16 +788,7 @@ function renderApp(data, state) {
       });
     });
 
-    // 2. dropdown population
-    const dropdownContainer = document.querySelector("#cardholder-dropdown");
-    const firstDisabledDropdownNode = `<option value="" disabled selected hidden>Select cardholder</option>`;
-    const dropdownList = getCardHolders(relevantData);
-    let dropdownListNodes = firstDisabledDropdownNode;
-    dropdownList.forEach((cardholder) => {
-      dropdownListNodes += `<option>${cardholder}</option>`;
-    });
-    dropdownContainer.innerHTML = dropdownListNodes;
-    // 3. Setting app state with current selected filters
+    // 2. Card type filters
     const subscriptionTypeCheckbox = document.querySelector(
       'input[name="filter-type"][value="subscription"]'
     );
@@ -829,6 +820,31 @@ function renderApp(data, state) {
       state.card_type = burnerTypeCheckbox.checked ? "subscription" : "burner";
       renderApp(data, state);
     });
+    // TODO
+    // // 3. dropdown population
+    // const dropdownNode = document.querySelector("#cardholder-dropdown");
+    // const selectedValue =
+    //   dropdownNode.options[dropdownNode.selectedIndex].value;
+
+    // console.log({ selectedValue });
+    // const firstDisabledDropdownNode = `<option value="" disabled selected hidden>Select cardholder</option>`;
+    // const dropdownEntries = getCardHolders(relevantData);
+    // let dropdownEntryNodes = firstDisabledDropdownNode;
+    // dropdownEntries.forEach((cardholder) => {
+    //   dropdownEntryNodes += `<option value="${cardholder}">${cardholder}</option>`;
+    // });
+    // dropdownNode.innerHTML = dropdownEntryNodes;
+
+    // // add event listener
+    // const dropdownNewNode = dropdownNode.cloneNode(true);
+    // dropdownNode.parentNode.replaceChild(dropdownNewNode, dropdownNode);
+    // dropdownNewNode.addEventListener("click", () => {
+    //   state.card_holder = selectedValue;
+    //   renderApp(data, state);
+    // });
+    // dropdownNode.value = state.card_holder;
+
+    // // 3.1 card holder filter
   }
   function reRenderListing() {
     // re-render listing
